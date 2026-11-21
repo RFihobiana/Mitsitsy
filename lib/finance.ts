@@ -1,0 +1,91 @@
+import { useEffect, useState } from "react";
+
+export type Kind = "need" | "want";
+
+export interface Expense {
+  id: string;
+  label: string;
+  amount: number;
+  kind: Kind;
+}
+
+export interface Goal {
+  name: string;
+  target: number;
+  saved: number;
+}
+
+export interface FinanceState {
+  salary: number;
+  savingsPercent: number;
+  goal: Goal;
+  expenses: Expense[];
+}
+
+export const DEFAULT_STATE: FinanceState = {
+  salary: 0,
+  savingsPercent: 20,
+  goal: { name: "", target: 0, saved: 0 },
+  expenses: [],
+};
+
+const STORAGE_KEY = "mitsitsy:data:v1";
+
+export function money(value: number, lang: string): string {
+  const locale = lang === "en" ? "en-US" : "fr-FR";
+  return `${new Intl.NumberFormat(locale, { maximumFractionDigits: 0 }).format(Math.round(value))} Ar`;
+}
+
+export function daysLeftInMonth(now = new Date()): number {
+  const last = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+  return last - now.getDate() + 1;
+}
+
+export function compute(s: FinanceState) {
+  const toSave = (s.salary * s.savingsPercent) / 100;
+  const spendable = s.salary - toSave;
+  const need = s.expenses.filter((e) => e.kind === "need").reduce((a, e) => a + e.amount, 0);
+  const want = s.expenses.filter((e) => e.kind === "want").reduce((a, e) => a + e.amount, 0);
+  const spent = need + want;
+  const left = spendable - spent;
+  const days = daysLeftInMonth();
+  const perDay = left > 0 ? left / days : 0;
+  const remainingGoal = Math.max(0, s.goal.target - s.goal.saved);
+  const monthsToGoal = toSave > 0 && remainingGoal > 0 ? Math.ceil(remainingGoal / toSave) : 0;
+  const goalPercent = s.goal.target > 0 ? Math.min(100, (s.goal.saved / s.goal.target) * 100) : 0;
+  return { toSave, spendable, need, want, spent, left, days, perDay, remainingGoal, monthsToGoal, goalPercent };
+}
+
+/** Cumulative savings per month, capped at the target (max 12 months shown). */
+export function projection(s: FinanceState, toSave: number, monthsToGoal: number): number[] {
+  if (s.goal.target <= 0) return [];
+  const months = Math.min(12, Math.max(monthsToGoal, 1));
+  return Array.from({ length: months + 1 }, (_, i) => Math.min(s.goal.target, s.goal.saved + toSave * i));
+}
+
+/** State persisted in localStorage; loads after mount to avoid hydration mismatches. */
+export function useFinanceState() {
+  const [state, setState] = useState<FinanceState>(DEFAULT_STATE);
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) setState({ ...DEFAULT_STATE, ...JSON.parse(raw) });
+    } catch {
+      /* ignore corrupted data */
+    }
+    setLoaded(true);
+  }, []);
+
+  useEffect(() => {
+    if (!loaded) return;
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch {
+      /* storage unavailable: keep working in memory */
+    }
+  }, [state, loaded]);
+
+  return [state, setState] as const;
+}
