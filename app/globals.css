@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 98%;
+    --foreground: 0 0% 7%;
+    --card: 0 0% 100%;
+    --border: 0 0% 88%;
+    --input: 0 0% 88%;
+    --ring: 160 84% 36%;
+    --muted: 0 0% 94%;
+    --muted-foreground: 0 0% 40%;
+    --primary: 160 84% 32%;
+    --primary-foreground: 0 0% 100%;
+    --destructive: 0 72% 48%;
+    --save: 160 84% 36%;
+    --need: 0 0% 38%;
+    --want: 38 92% 46%;
+    --left: 0 0% 80%;
+  }
+  .dark {
+    --background: 0 0% 4%;
+    --foreground: 0 0% 96%;
+    --card: 0 0% 7%;
+    --border: 0 0% 15%;
+    --input: 0 0% 18%;
+    --ring: 160 84% 45%;
+    --muted: 0 0% 11%;
+    --muted-foreground: 0 0% 62%;
+    --primary: 160 84% 45%;
+    --primary-foreground: 0 0% 4%;
+    --destructive: 0 80% 62%;
+    --save: 160 84% 45%;
+    --need: 0 0% 72%;
+    --want: 38 92% 55%;
+    --left: 0 0% 26%;
+  }
+  * { @apply border-border; }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
