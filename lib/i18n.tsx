@@ -102,17 +102,17 @@ const fr: Dict = {
 
 const mg: Dict = {
   tag: "Mitahiry aloha",
-  heroTitle: "Ny fomba mahay indrindra hitahiry ny karamanao.",
+  heroTitle: "Ny fomba tsara indrindra hitehirizana ny karamanao.",
   heroText:
-    "Ny Mitsitsy dia mametraka ny fitehirizanao ho ambonin’ny zavatra rehetra: alohan’ny hofan-trano, alohan’ny fividianana, alohan’ny hafa rehetra. Mitahiry aloha ianao, mandany ny sisa, ary manakaiky ny tanjonao isam-bolana.",
+    "Ny Mitsitsy dia mametraka ny fitehirizanao ho ambonin’ny zavatra rehetra: alohan’ny hofan-trano, alohan’ny fividianana, alohan’ny hafa rehetra. Mitahiry aloha ianao, avieo vao mandany ny sisa, ary manakaiky ny fotoana ahatratraranao izay tanjona napetrakao.",
   salary: "Karama isam-bolana (Ar)",
   savingsShare: "Anjara hotehirizina: {pct}%",
   saveFirst: "Hotehirizina rehefa mandray karama",
-  toSpend: "Handaniana",
+  toSpend: "Holaniana",
   salaryShort: "Karama",
   overview: "Ity volana ity",
   spent: "Efa nandany",
-  left: "Sisa handaniana",
+  left: "Sisa holaniana",
   perDay: "Isan’andro",
   daysLeft: "{n} andro sisa",
   overspent: "Mihoatra {amount} ny teti-bolanao. Ahena ny faniriana, fa aza ny fitehirizana.",
