@@ -4,8 +4,27 @@ import { I18nProvider } from "@/lib/i18n";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Mitsitsy",
-  description: "Save your salary first. Spend what is left.",
+  metadataBase: new URL("https://mitsitsy-tsara.vercel.app"),
+  title: {
+    default: "Mitsitsy – Épargnez votre salaire d’abord",
+    template: "%s | Mitsitsy",
+  },
+  description:
+    "Mitsitsy vous aide à épargner votre salaire en premier et à dépenser le reste : budget mensuel, objectifs d’épargne et graphiques. En français, anglais et malagasy.",
+  keywords: ["budget", "épargne", "salaire", "gestion d’argent", "Madagascar", "Ariary", "Mitsitsy"],
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    url: "/",
+    siteName: "Mitsitsy",
+    title: "Mitsitsy – Épargnez votre salaire d’abord",
+    description: "Épargnez d’abord, dépensez ce qui reste. Budget, objectifs et graphiques.",
+    locale: "fr_FR",
+    alternateLocale: ["en_US", "mg_MG"],
+  },
+  twitter: { card: "summary_large_image", title: "Mitsitsy", description: "Épargnez votre salaire d’abord." },
+  robots: { index: true, follow: true },
+  verification: { google: "PASTE_GOOGLE_CODE_HERE" }, // see step 6
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
