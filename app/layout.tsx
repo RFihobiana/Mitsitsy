@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   },
   twitter: { card: "summary_large_image", title: "Mitsitsy", description: "Épargnez votre salaire d’abord." },
   robots: { index: true, follow: true },
-  verification: { google: "PASTE_GOOGLE_CODE_HERE" }, // see step 6
+  verification: { google: "eLRiXQ2YhX7cM9m4SRFCJSlVFV8iaQ6QvRr9RpQYf24" },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
