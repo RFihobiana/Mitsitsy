@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { I18nProvider } from "@/lib/i18n";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://mitsitsy-tsara.vercel.app"),
@@ -11,18 +12,31 @@ export const metadata: Metadata = {
   },
   description:
     "Mitsitsy vous aide à épargner votre salaire en premier et à dépenser le reste : budget mensuel, objectifs d’épargne et graphiques. En français, anglais et malagasy.",
-  keywords: ["budget", "épargne", "salaire", "gestion d’argent", "Madagascar", "Ariary", "Mitsitsy"],
+  keywords: [
+    "budget",
+    "épargne",
+    "salaire",
+    "gestion d’argent",
+    "Madagascar",
+    "Ariary",
+    "Mitsitsy",
+  ],
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     url: "/",
     siteName: "Mitsitsy",
     title: "Mitsitsy – Épargnez votre salaire d’abord",
-    description: "Épargnez d’abord, dépensez ce qui reste. Budget, objectifs et graphiques.",
+    description:
+      "Épargnez d’abord, dépensez ce qui reste. Budget, objectifs et graphiques.",
     locale: "fr_FR",
     alternateLocale: ["en_US", "mg_MG"],
   },
-  twitter: { card: "summary_large_image", title: "Mitsitsy", description: "Épargnez votre salaire d’abord." },
+  twitter: {
+    card: "summary_large_image",
+    title: "Mitsitsy",
+    description: "Épargnez votre salaire d’abord.",
+  },
   robots: { index: true, follow: true },
   verification: { google: "eLRiXQ2YhX7cM9m4SRFCJSlVFV8iaQ6QvRr9RpQYf24" },
 };
@@ -32,6 +46,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="fr" className="dark" suppressHydrationWarning>
       <body>
         <I18nProvider>{children}</I18nProvider>
+        <Analytics />
       </body>
     </html>
   );
