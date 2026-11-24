@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-
 export type Kind = "need" | "want";
 
 export interface Expense {
@@ -28,8 +26,6 @@ export const DEFAULT_STATE: FinanceState = {
   goal: { name: "", target: 0, saved: 0 },
   expenses: [],
 };
-
-const STORAGE_KEY = "mitsitsy:data:v1";
 
 export function money(value: number, lang: string): string {
   const locale = lang === "en" ? "en-US" : "fr-FR";
@@ -103,31 +99,4 @@ export function projection(
   return Array.from({ length: months + 1 }, (_, i) =>
     Math.min(s.goal.target, s.goal.saved + toSave * i),
   );
-}
-
-/** State persisted in localStorage; loads after mount to avoid hydration mismatches. */
-export function useFinanceState() {
-  const [state, setState] = useState<FinanceState>(DEFAULT_STATE);
-  const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) setState({ ...DEFAULT_STATE, ...JSON.parse(raw) });
-    } catch {
-      /* ignore corrupted data */
-    }
-    setLoaded(true);
-  }, []);
-
-  useEffect(() => {
-    if (!loaded) return;
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    } catch {
-      /* storage unavailable: keep working in memory */
-    }
-  }, [state, loaded]);
-
-  return [state, setState] as const;
 }
