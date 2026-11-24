@@ -44,23 +44,65 @@ export function daysLeftInMonth(now = new Date()): number {
 export function compute(s: FinanceState) {
   const toSave = (s.salary * s.savingsPercent) / 100;
   const spendable = s.salary - toSave;
-  const need = s.expenses.filter((e) => e.kind === "need").reduce((a, e) => a + e.amount, 0);
-  const want = s.expenses.filter((e) => e.kind === "want").reduce((a, e) => a + e.amount, 0);
+  const need = s.expenses
+    .filter((e) => e.kind === "need")
+    .reduce((a, e) => a + e.amount, 0);
+  const want = s.expenses
+    .filter((e) => e.kind === "want")
+    .reduce((a, e) => a + e.amount, 0);
   const spent = need + want;
   const left = spendable - spent;
   const days = daysLeftInMonth();
   const perDay = left > 0 ? left / days : 0;
   const remainingGoal = Math.max(0, s.goal.target - s.goal.saved);
-  const monthsToGoal = toSave > 0 && remainingGoal > 0 ? Math.ceil(remainingGoal / toSave) : 0;
-  const goalPercent = s.goal.target > 0 ? Math.min(100, (s.goal.saved / s.goal.target) * 100) : 0;
-  return { toSave, spendable, need, want, spent, left, days, perDay, remainingGoal, monthsToGoal, goalPercent };
+  const monthsToGoal =
+    toSave > 0 && remainingGoal > 0 ? Math.ceil(remainingGoal / toSave) : 0;
+  const goalPercent =
+    s.goal.target > 0 ? Math.min(100, (s.goal.saved / s.goal.target) * 100) : 0;
+  return {
+    toSave,
+    spendable,
+    need,
+    want,
+    spent,
+    left,
+    days,
+    perDay,
+    remainingGoal,
+    monthsToGoal,
+    goalPercent,
+  };
+}
+
+export interface Duration {
+  unit: "day" | "month" | "year";
+  value: number;
+}
+
+/** Time to reach the goal: days (< 1 month), months (up to 12), then years. */
+export function goalDuration(
+  remaining: number,
+  toSave: number,
+): Duration | null {
+  if (remaining <= 0 || toSave <= 0) return null;
+  const months = remaining / toSave;
+  if (months < 1)
+    return { unit: "day", value: Math.max(1, Math.ceil(months * 30)) };
+  if (months <= 12) return { unit: "month", value: Math.ceil(months) };
+  return { unit: "year", value: Math.ceil((months / 12) * 10) / 10 }; // one decimal, rounded up
 }
 
 /** Cumulative savings per month, capped at the target (max 12 months shown). */
-export function projection(s: FinanceState, toSave: number, monthsToGoal: number): number[] {
+export function projection(
+  s: FinanceState,
+  toSave: number,
+  monthsToGoal: number,
+): number[] {
   if (s.goal.target <= 0) return [];
   const months = Math.min(12, Math.max(monthsToGoal, 1));
-  return Array.from({ length: months + 1 }, (_, i) => Math.min(s.goal.target, s.goal.saved + toSave * i));
+  return Array.from({ length: months + 1 }, (_, i) =>
+    Math.min(s.goal.target, s.goal.saved + toSave * i),
+  );
 }
 
 /** State persisted in localStorage; loads after mount to avoid hydration mismatches. */

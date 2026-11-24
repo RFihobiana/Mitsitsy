@@ -9,8 +9,16 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { compute, money, projection, useFinanceState, type Expense, type Kind } from "@/lib/finance";
-import { useI18n } from "@/lib/i18n";
+import {
+  compute,
+  goalDuration,
+  money,
+  projection,
+  useFinanceState,
+  type Expense,
+  type Kind,
+} from "@/lib/finance";
+import { useI18n, type Key } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 const toNumber = (v: string) => Math.max(0, Number(v) || 0);
@@ -22,6 +30,25 @@ export function Dashboard() {
   const c = compute(state);
   const points = projection(state, c.toSave, c.monthsToGoal);
 
+  const duration = goalDuration(c.remainingGoal, c.toSave);
+
+  const durationText = (() => {
+    if (!duration) return "";
+    const locale = lang === "en" ? "en-US" : "fr-FR";
+    const n = new Intl.NumberFormat(locale, {
+      maximumFractionDigits: 1,
+    }).format(duration.value);
+    // French uses the singular up to 2 ("1,5 an"); English only for exactly 1.
+    const singular = lang === "fr" ? duration.value < 2 : duration.value === 1;
+    const base =
+      duration.unit === "day"
+        ? "durationDay"
+        : duration.unit === "month"
+          ? "durationMonth"
+          : "durationYear";
+    return t((base + (singular ? "" : "s")) as Key, { n });
+  })();
+
   const [label, setLabel] = useState("");
   const [amount, setAmount] = useState("");
   const [kind, setKind] = useState<Kind>("need");
@@ -29,7 +56,12 @@ export function Dashboard() {
   const addExpense = () => {
     const value = toNumber(amount);
     if (!label.trim() || value <= 0) return;
-    const expense: Expense = { id: crypto.randomUUID(), label: label.trim(), amount: value, kind };
+    const expense: Expense = {
+      id: crypto.randomUUID(),
+      label: label.trim(),
+      amount: value,
+      kind,
+    };
     setState({ ...state, expenses: [expense, ...state.expenses] });
     setLabel("");
     setAmount("");
@@ -46,7 +78,11 @@ export function Dashboard() {
     { key: "legendSave", color: "bg-[hsl(var(--save))]", value: c.toSave },
     { key: "legendNeed", color: "bg-[hsl(var(--need))]", value: c.need },
     { key: "legendWant", color: "bg-[hsl(var(--want))]", value: c.want },
-    { key: "legendLeft", color: "bg-[hsl(var(--left))]", value: Math.max(0, c.left) },
+    {
+      key: "legendLeft",
+      color: "bg-[hsl(var(--left))]",
+      value: Math.max(0, c.left),
+    },
   ] as const;
 
   return (
@@ -62,18 +98,24 @@ export function Dashboard() {
                 inputMode="numeric"
                 placeholder="600000"
                 value={state.salary || ""}
-                onChange={(e) => setState({ ...state, salary: toNumber(e.target.value) })}
+                onChange={(e) =>
+                  setState({ ...state, salary: toNumber(e.target.value) })
+                }
               />
             </div>
             <div className="grid gap-1.5">
-              <Label htmlFor="pct">{t("savingsShare", { pct: state.savingsPercent })}</Label>
+              <Label htmlFor="pct">
+                {t("savingsShare", { pct: state.savingsPercent })}
+              </Label>
               <input
                 id="pct"
                 type="range"
                 min={0}
                 max={60}
                 value={state.savingsPercent}
-                onChange={(e) => setState({ ...state, savingsPercent: Number(e.target.value) })}
+                onChange={(e) =>
+                  setState({ ...state, savingsPercent: Number(e.target.value) })
+                }
                 className="h-2 w-full cursor-pointer accent-[hsl(var(--primary))]"
               />
             </div>
@@ -102,18 +144,29 @@ export function Dashboard() {
             <div className="grid grid-cols-3 gap-3 text-sm">
               <div>
                 <p className="text-muted-foreground">{t("spent")}</p>
-                <p className="font-semibold"><AnimatedNumber value={c.spent} format={fmt} /></p>
+                <p className="font-semibold">
+                  <AnimatedNumber value={c.spent} format={fmt} />
+                </p>
               </div>
               <div>
                 <p className="text-muted-foreground">{t("left")}</p>
-                <p className={cn("font-semibold", overspent && "text-destructive")}>
+                <p
+                  className={cn(
+                    "font-semibold",
+                    overspent && "text-destructive",
+                  )}
+                >
                   <AnimatedNumber value={c.left} format={fmt} />
                 </p>
               </div>
               <div>
                 <p className="text-muted-foreground">{t("perDay")}</p>
-                <p className="font-semibold"><AnimatedNumber value={c.perDay} format={fmt} /></p>
-                <p className="text-xs text-muted-foreground">{t("daysLeft", { n: c.days })}</p>
+                <p className="font-semibold">
+                  <AnimatedNumber value={c.perDay} format={fmt} />
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  {t("daysLeft", { n: c.days })}
+                </p>
               </div>
             </div>
 
@@ -159,13 +212,23 @@ export function Dashboard() {
             ) : (
               <ul>
                 {state.expenses.map((e) => (
-                  <li key={e.id} className="flex animate-pop items-center justify-between gap-3 border-t py-2.5 text-sm">
+                  <li
+                    key={e.id}
+                    className="flex animate-pop items-center justify-between gap-3 border-t py-2.5 text-sm"
+                  >
                     <span className="flex items-center gap-2">
                       <span
-                        className={cn("h-2 w-2 rounded-full", e.kind === "need" ? "bg-[hsl(var(--need))]" : "bg-[hsl(var(--want))]")}
+                        className={cn(
+                          "h-2 w-2 rounded-full",
+                          e.kind === "need"
+                            ? "bg-[hsl(var(--need))]"
+                            : "bg-[hsl(var(--want))]",
+                        )}
                       />
                       {e.label}
-                      <span className="text-xs text-muted-foreground">{t(e.kind)}</span>
+                      <span className="text-xs text-muted-foreground">
+                        {t(e.kind)}
+                      </span>
                     </span>
                     <span className="flex items-center gap-1">
                       {fmt(e.amount)}
@@ -173,7 +236,14 @@ export function Dashboard() {
                         variant="ghost"
                         size="icon"
                         aria-label={`${t("remove")} ${e.label}`}
-                        onClick={() => setState({ ...state, expenses: state.expenses.filter((x) => x.id !== e.id) })}
+                        onClick={() =>
+                          setState({
+                            ...state,
+                            expenses: state.expenses.filter(
+                              (x) => x.id !== e.id,
+                            ),
+                          })
+                        }
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>
@@ -183,7 +253,10 @@ export function Dashboard() {
               </ul>
             )}
             {state.expenses.length > 0 && (
-              <Button variant="outline" onClick={() => setState({ ...state, expenses: [] })}>
+              <Button
+                variant="outline"
+                onClick={() => setState({ ...state, expenses: [] })}
+              >
                 {t("newMonth")}
               </Button>
             )}
@@ -201,7 +274,9 @@ export function Dashboard() {
               segments={segments}
               center={
                 <>
-                  <span className="text-xs text-muted-foreground">{t("salaryShort")}</span>
+                  <span className="text-xs text-muted-foreground">
+                    {t("salaryShort")}
+                  </span>
                   <span className="text-lg font-semibold">
                     <AnimatedNumber value={state.salary} format={fmt} />
                   </span>
@@ -232,7 +307,12 @@ export function Dashboard() {
                   id="goal-name"
                   placeholder={t("goalForPlaceholder")}
                   value={state.goal.name}
-                  onChange={(e) => setState({ ...state, goal: { ...state.goal, name: e.target.value } })}
+                  onChange={(e) =>
+                    setState({
+                      ...state,
+                      goal: { ...state.goal, name: e.target.value },
+                    })
+                  }
                 />
               </div>
               <div className="grid gap-1.5">
@@ -242,7 +322,12 @@ export function Dashboard() {
                   type="number"
                   inputMode="numeric"
                   value={state.goal.target || ""}
-                  onChange={(e) => setState({ ...state, goal: { ...state.goal, target: toNumber(e.target.value) } })}
+                  onChange={(e) =>
+                    setState({
+                      ...state,
+                      goal: { ...state.goal, target: toNumber(e.target.value) },
+                    })
+                  }
                 />
               </div>
               <div className="grid gap-1.5">
@@ -252,28 +337,50 @@ export function Dashboard() {
                   type="number"
                   inputMode="numeric"
                   value={state.goal.saved || ""}
-                  onChange={(e) => setState({ ...state, goal: { ...state.goal, saved: toNumber(e.target.value) } })}
+                  onChange={(e) =>
+                    setState({
+                      ...state,
+                      goal: { ...state.goal, saved: toNumber(e.target.value) },
+                    })
+                  }
                 />
               </div>
             </div>
 
             <p className="text-sm font-medium">{t("chartGoal")}</p>
             {points.length === 0 ? (
-              <p className="text-sm text-muted-foreground">{t("chartGoalEmpty")}</p>
+              <p className="text-sm text-muted-foreground">
+                {t("chartGoalEmpty")}
+              </p>
             ) : (
               <>
-                <GoalChart points={points} target={state.goal.target} format={fmt} monthLabel={t("monthShort")} />
+                <GoalChart
+                  points={points}
+                  target={state.goal.target}
+                  format={fmt}
+                  monthLabel={t("monthShort")}
+                />
                 <p className="text-sm">
                   {c.remainingGoal === 0
                     ? t("goalReached")
                     : c.monthsToGoal > 0
-                    ? t("goalRemaining", { remaining: fmt(c.remainingGoal), rate: fmt(c.toSave), months: c.monthsToGoal })
-                    : t("goalHint")}
+                      ? t("goalRemaining", {
+                          remaining: fmt(c.remainingGoal),
+                          rate: fmt(c.toSave),
+                          duration: durationText,
+                        })
+                      : t("goalHint")}
                 </p>
                 {c.toSave > 0 && c.remainingGoal > 0 && (
                   <Button
                     onClick={() =>
-                      setState({ ...state, goal: { ...state.goal, saved: state.goal.saved + c.toSave } })
+                      setState({
+                        ...state,
+                        goal: {
+                          ...state.goal,
+                          saved: state.goal.saved + c.toSave,
+                        },
+                      })
                     }
                   >
                     {t("addMonth", { amount: fmt(c.toSave) })}

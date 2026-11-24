@@ -1,6 +1,13 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+  type ReactNode,
+} from "react";
 
 export type Lang = "en" | "fr" | "mg";
 export const LANGS: Lang[] = ["en", "fr", "mg"];
@@ -34,7 +41,14 @@ const en = {
   goalForPlaceholder: "e.g. laptop",
   goalTarget: "Target amount (Ar)",
   goalSaved: "Already saved (Ar)",
-  goalRemaining: "{remaining} to go. At {rate} per month, you get there in {months} months.",
+  goalRemaining:
+    "{remaining} to go. At {rate} per month, you get there in {duration}.",
+  durationDay: "{n} day",
+  durationDays: "{n} days",
+  durationMonth: "{n} month",
+  durationMonths: "{n} months",
+  durationYear: "{n} year",
+  durationYears: "{n} years",
   goalReached: "Goal reached. Well done!",
   goalHint: "Enter your salary and a savings share to estimate the time.",
   addMonth: "Add this month's savings ({amount})",
@@ -69,7 +83,8 @@ const fr: Dict = {
   left: "Reste à dépenser",
   perDay: "Par jour",
   daysLeft: "{n} jours restants",
-  overspent: "Vous dépassez votre budget de {amount}. Réduisez une envie, pas votre épargne.",
+  overspent:
+    "Vous dépassez votre budget de {amount}. Réduisez une envie, pas votre épargne.",
   expensePlaceholder: "Dépense (ex. transport)",
   amount: "Montant",
   need: "Besoin",
@@ -83,9 +98,17 @@ const fr: Dict = {
   goalForPlaceholder: "ex. ordinateur portable",
   goalTarget: "Montant visé (Ar)",
   goalSaved: "Déjà épargné (Ar)",
-  goalRemaining: "Il reste {remaining}. À {rate} par mois, vous y arrivez en {months} mois.",
+  goalRemaining:
+    "Il reste {remaining}. À {rate} par mois, vous y arrivez en {duration}.",
+  durationDay: "{n} jour",
+  durationDays: "{n} jours",
+  durationMonth: "{n} mois",
+  durationMonths: "{n} mois",
+  durationYear: "{n} an",
+  durationYears: "{n} ans",
   goalReached: "Objectif atteint. Bravo !",
-  goalHint: "Saisissez votre salaire et une part d’épargne pour estimer la durée.",
+  goalHint:
+    "Saisissez votre salaire et une part d’épargne pour estimer la durée.",
   addMonth: "Ajouter l’épargne de ce mois ({amount})",
   chartSplit: "Où va votre salaire",
   chartGoal: "Chemin vers votre objectif",
@@ -115,7 +138,8 @@ const mg: Dict = {
   left: "Sisa holaniana",
   perDay: "Isan’andro",
   daysLeft: "{n} andro sisa",
-  overspent: "Mihoatra {amount} ny teti-bolanao. Ahena ny faniriana, fa aza ny fitehirizana.",
+  overspent:
+    "Mihoatra {amount} ny teti-bolanao. Ahena ny faniriana, fa aza ny fitehirizana.",
   expensePlaceholder: "Fandaniana (ohatra: fitaterana)",
   amount: "Vola",
   need: "Filàna",
@@ -129,9 +153,17 @@ const mg: Dict = {
   goalForPlaceholder: "ohatra: solosaina finday",
   goalTarget: "Vola tiana ho tratra (Ar)",
   goalSaved: "Efa voatahiry (Ar)",
-  goalRemaining: "Mbola {remaining}. Raha {rate} isam-bolana ny fitehirizanao, ho tratra afaka {months} volana.",
+  goalRemaining:
+    "Mbola {remaining}. Raha {rate} isam-bolana ny fitehirizanao, ho tratra afaka {duration}.",
+  durationDay: "{n} andro",
+  durationDays: "{n} andro",
+  durationMonth: "{n} volana",
+  durationMonths: "{n} volana",
+  durationYear: "{n} taona",
+  durationYears: "{n} taona",
   goalReached: "Tratra ny tanjona. Arahaba!",
-  goalHint: "Ampidiro ny karama sy ny anjara hotehirizina mba hanombanana ny fotoana.",
+  goalHint:
+    "Ampidiro ny karama sy ny anjara hotehirizina mba hanombanana ny fotoana.",
   addMonth: "Ampio ny fitehirizan’ity volana ity ({amount})",
   chartSplit: "Ny fizaran’ny karamanao",
   chartGoal: "Lalana mankany amin’ny tanjona",
@@ -166,7 +198,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    document.documentElement.lang = lang === "mg" ? "mg" : lang;
+    document.documentElement.lang = lang;
   }, [lang]);
 
   const setLang = useCallback((next: Lang) => {
@@ -181,13 +213,19 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   const t = useCallback(
     (key: Key, vars?: Record<string, string | number>) => {
       let text = dictionaries[lang][key];
-      if (vars) for (const [k, v] of Object.entries(vars)) text = text.replaceAll(`{${k}}`, String(v));
+      if (vars)
+        for (const [k, v] of Object.entries(vars))
+          text = text.replaceAll(`{${k}}`, String(v));
       return text;
     },
-    [lang]
+    [lang],
   );
 
-  return <I18nContext.Provider value={{ lang, setLang, t }}>{children}</I18nContext.Provider>;
+  return (
+    <I18nContext.Provider value={{ lang, setLang, t }}>
+      {children}
+    </I18nContext.Provider>
+  );
 }
 
 export function useI18n(): I18nValue {
