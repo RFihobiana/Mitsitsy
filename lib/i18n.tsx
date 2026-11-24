@@ -63,6 +63,35 @@ const en = {
   theme: "Switch theme",
   language: "Language",
   footer: "Your data stays in this browser.",
+  lockSetupTitle: "Protect your data",
+  lockSetupText:
+    "Choose a passphrase. Your data is encrypted on this device with it. If you forget it, your data cannot be recovered.",
+  lockUnlockTitle: "Mitsitsy is locked",
+  lockUnlockText: "Enter your passphrase to continue.",
+  passphrase: "Passphrase",
+  passphraseConfirm: "Confirm passphrase",
+  passphraseHint:
+    "At least 10 characters. A phrase of several words works best.",
+  setupButton: "Encrypt and start",
+  unlockButton: "Unlock",
+  errTooShort: "The passphrase must have at least 10 characters.",
+  errMismatch: "The passphrases do not match.",
+  errWrong: "Wrong passphrase.",
+  errWait: "Too many attempts. Wait {n} seconds.",
+  errUnsupported: "Encryption is not available here. Open the app over HTTPS.",
+  lockNow: "Lock now",
+  backupExport: "Export encrypted backup",
+  backupImport: "Import backup",
+  backupImportPass: "Backup passphrase",
+  backupImportConfirm: "Restore",
+  backupDone: "Backup restored.",
+  backupBad: "Invalid backup or wrong passphrase.",
+  securityTitle: "Security",
+  securityText:
+    "Encrypted on this device. Locks after {n} minutes of inactivity.",
+  eraseAll: "Erase all data",
+  eraseConfirm: "Erase everything on this device? This cannot be undone.",
+  forgot: "Forgot your passphrase? Erase all data",
 };
 
 export type Key = keyof typeof en;
@@ -121,6 +150,37 @@ const fr: Dict = {
   theme: "Changer de thème",
   language: "Langue",
   footer: "Vos données restent dans ce navigateur.",
+  lockSetupTitle: "Protégez vos données",
+  lockSetupText:
+    "Choisissez une phrase secrète. Vos données sont chiffrées sur cet appareil avec elle. Si vous l’oubliez, vos données seront irrécupérables.",
+  lockUnlockTitle: "Mitsitsy est verrouillé",
+  lockUnlockText: "Saisissez votre phrase secrète pour continuer.",
+  passphrase: "Phrase secrète",
+  passphraseConfirm: "Confirmez la phrase secrète",
+  passphraseHint:
+    "Au moins 10 caractères. Une phrase de plusieurs mots est idéale.",
+  setupButton: "Chiffrer et commencer",
+  unlockButton: "Déverrouiller",
+  errTooShort: "La phrase secrète doit contenir au moins 10 caractères.",
+  errMismatch: "Les phrases secrètes ne correspondent pas.",
+  errWrong: "Phrase secrète incorrecte.",
+  errWait: "Trop de tentatives. Attendez {n} secondes.",
+  errUnsupported:
+    "Le chiffrement n’est pas disponible ici. Ouvrez l’application en HTTPS.",
+  lockNow: "Verrouiller maintenant",
+  backupExport: "Exporter une sauvegarde chiffrée",
+  backupImport: "Importer une sauvegarde",
+  backupImportPass: "Phrase secrète de la sauvegarde",
+  backupImportConfirm: "Restaurer",
+  backupDone: "Sauvegarde restaurée.",
+  backupBad: "Sauvegarde invalide ou phrase secrète incorrecte.",
+  securityTitle: "Sécurité",
+  securityText:
+    "Chiffré sur cet appareil. Verrouillage après {n} minutes d’inactivité.",
+  eraseAll: "Effacer toutes les données",
+  eraseConfirm:
+    "Effacer tout sur cet appareil ? Cette action est irréversible.",
+  forgot: "Phrase secrète oubliée ? Effacer toutes les données",
 };
 
 const mg: Dict = {
@@ -176,6 +236,38 @@ const mg: Dict = {
   theme: "Hanova endrika",
   language: "Fiteny",
   footer: "Mijanona ao amin’ity navigateur ity ny angonao.",
+  lockSetupTitle: "Arovy ny angonao",
+  lockSetupText:
+    "Misafidiana teny miafina. Voasoratra mafina ao amin’ity fitaovana ity ny angonao amin’izany. Raha adinonao izany, tsy azo averina intsony ny angonao.",
+  lockUnlockTitle: "Mihidy ny Mitsitsy",
+  lockUnlockText: "Ampidiro ny teny miafinao mba hanohizana.",
+  passphrase: "Teny miafina",
+  passphraseConfirm: "Averino ny teny miafina",
+  passphraseHint:
+    "10 tarehintsoratra farafahakeliny. Tsara kokoa ny fehezanteny misy teny maromaro.",
+  setupButton: "Asio fanafenana ary atomboka",
+  unlockButton: "Sokafy",
+  errTooShort:
+    "Tsy maintsy misy 10 tarehintsoratra farafahakeliny ny teny miafina.",
+  errMismatch: "Tsy mitovy ny teny miafina roa.",
+  errWrong: "Diso ny teny miafina.",
+  errWait: "Be loatra ny fanandramana. Andraso {n} segondra.",
+  errUnsupported:
+    "Tsy azo ampiasaina eto ny fanafenana. Sokafy amin’ny HTTPS ny rindrambaiko.",
+  lockNow: "Hidio izao",
+  backupExport: "Avoaka ny backup voasoratra mafina",
+  backupImport: "Ampidiro ny backup",
+  backupImportPass: "Teny miafin’ny backup",
+  backupImportConfirm: "Averina",
+  backupDone: "Voaverina ny backup.",
+  backupBad: "Backup tsy mety na diso ny teny miafina.",
+  securityTitle: "Fiarovana",
+  securityText:
+    "Voasoratra mafina ao amin’ity fitaovana ity. Mihidy aorian’ny {n} minitra tsy fampiasana.",
+  eraseAll: "Fafana ny angona rehetra",
+  eraseConfirm:
+    "Fafana ny zavatra rehetra ao amin’ity fitaovana ity? Tsy azo averina izany.",
+  forgot: "Adino ny teny miafina? Fafana ny angona rehetra",
 };
 
 const dictionaries: Record<Lang, Dict> = { en, fr, mg };

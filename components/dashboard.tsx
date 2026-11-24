@@ -14,18 +14,18 @@ import {
   goalDuration,
   money,
   projection,
-  useFinanceState,
   type Expense,
   type Kind,
 } from "@/lib/finance";
 import { useI18n, type Key } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
+import { useVault } from "@/lib/vault";
 
 const toNumber = (v: string) => Math.max(0, Number(v) || 0);
 
 export function Dashboard() {
   const { t, lang } = useI18n();
-  const [state, setState] = useFinanceState();
+  const { state, setState } = useVault();
   const fmt = (n: number) => money(n, lang);
   const c = compute(state);
   const points = projection(state, c.toSave, c.monthsToGoal);

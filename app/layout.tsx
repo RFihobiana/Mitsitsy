@@ -4,6 +4,7 @@ import { I18nProvider } from "@/lib/i18n";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import { SwRegister } from "@/components/sw-register";
+import { VaultProvider } from "@/lib/vault";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://mitsitsy-tsara.vercel.app"),
@@ -46,7 +47,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="fr" className="dark" suppressHydrationWarning>
       <body>
-        <I18nProvider>{children}</I18nProvider>
+        <I18nProvider>
+          <VaultProvider>{children}</VaultProvider>
+        </I18nProvider>
         <SwRegister />
         <Analytics />
       </body>
