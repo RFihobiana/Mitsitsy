@@ -4,7 +4,7 @@ import { useState, type ChangeEvent } from "react";
 import { Download, Lock, Trash2, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
 import { useI18n } from "@/lib/i18n";
 import { AUTO_LOCK_MINUTES, useVault } from "@/lib/vault";
 
@@ -72,14 +72,15 @@ export function SecurityCard() {
 
         {backup && (
           <div className="flex flex-wrap gap-2">
-            <Input
-              type="password"
-              autoComplete="off"
-              className="max-w-xs"
-              placeholder={t("backupImportPass")}
-              value={pass}
-              onChange={(e) => setPass(e.target.value)}
-            />
+            <div className="w-full max-w-xs">
+              <PasswordInput
+                autoComplete="off"
+                className="max-w-xs"
+                placeholder={t("backupImportPass")}
+                value={pass}
+                onChange={(e) => setPass(e.target.value)}
+              />
+            </div>
             <Button onClick={restore} disabled={busy || !pass}>
               {busy ? "…" : t("backupImportConfirm")}
             </Button>

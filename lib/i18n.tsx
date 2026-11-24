@@ -92,6 +92,8 @@ const en = {
   eraseAll: "Erase all data",
   eraseConfirm: "Erase everything on this device? This cannot be undone.",
   forgot: "Forgot your passphrase? Erase all data",
+  showPassphrase: "Show passphrase",
+  hidePassphrase: "Hide passphrase",
 };
 
 export type Key = keyof typeof en;
@@ -181,6 +183,8 @@ const fr: Dict = {
   eraseConfirm:
     "Effacer tout sur cet appareil ? Cette action est irréversible.",
   forgot: "Phrase secrète oubliée ? Effacer toutes les données",
+  showPassphrase: "Afficher la phrase secrète",
+  hidePassphrase: "Masquer la phrase secrète",
 };
 
 const mg: Dict = {
@@ -268,6 +272,8 @@ const mg: Dict = {
   eraseConfirm:
     "Fafana ny zavatra rehetra ao amin’ity fitaovana ity? Tsy azo averina izany.",
   forgot: "Adino ny teny miafina? Fafana ny angona rehetra",
+  showPassphrase: "Asehoy ny teny miafina",
+  hidePassphrase: "Afeno ny teny miafina",
 };
 
 const dictionaries: Record<Lang, Dict> = { en, fr, mg };

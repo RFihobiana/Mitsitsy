@@ -4,10 +4,10 @@ import { useState, type FormEvent, type ReactNode } from "react";
 import { Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useI18n } from "@/lib/i18n";
 import { useVault } from "@/lib/vault";
+import { PasswordInput } from "@/components/ui/password-input";
 
 const MIN_LENGTH = 10;
 
@@ -69,9 +69,8 @@ function LockScreen({ mode }: { mode: "setup" | "unlock" }) {
         <form onSubmit={submit} className="grid gap-4">
           <div className="grid gap-1.5">
             <Label htmlFor="pass">{t("passphrase")}</Label>
-            <Input
+            <PasswordInput
               id="pass"
-              type="password"
               autoFocus
               autoComplete={isSetup ? "new-password" : "current-password"}
               value={pass}
@@ -81,9 +80,8 @@ function LockScreen({ mode }: { mode: "setup" | "unlock" }) {
           {isSetup && (
             <div className="grid gap-1.5">
               <Label htmlFor="confirm">{t("passphraseConfirm")}</Label>
-              <Input
+              <PasswordInput
                 id="confirm"
-                type="password"
                 autoComplete="new-password"
                 value={confirm}
                 onChange={(e) => setConfirm(e.target.value)}
