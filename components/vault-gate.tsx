@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent, type ReactNode } from "react";
+import { useEffect, useState, type FormEvent, type ReactNode } from "react";
 import { Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -25,7 +25,6 @@ export function VaultGate({ children }: { children: ReactNode }) {
   }
   return <LockScreen mode={status === "setup" ? "setup" : "unlock"} />;
 }
-
 function LockScreen({ mode }: { mode: "setup" | "unlock" }) {
   const { t } = useI18n();
   const { setup, unlock, eraseAll } = useVault();
@@ -33,10 +32,27 @@ function LockScreen({ mode }: { mode: "setup" | "unlock" }) {
   const [confirm, setConfirm] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+  const [until, setUntil] = useState(0); // timestamp (ms) when the wait ends
+  const [now, setNow] = useState(() => Date.now());
   const isSetup = mode === "setup";
+
+  // Tick while a wait is running, and stop by itself when it ends.
+  useEffect(() => {
+    if (until <= Date.now()) return;
+    const id = setInterval(() => {
+      const current = Date.now();
+      setNow(current);
+      if (current >= until) clearInterval(id);
+    }, 250);
+    return () => clearInterval(id);
+  }, [until]);
+
+  const remaining = Math.max(0, Math.ceil((until - now) / 1000));
+  const message = remaining > 0 ? t("errWait", { n: remaining }) : error;
 
   const submit = async (e: FormEvent) => {
     e.preventDefault();
+    if (remaining > 0) return;
     setError("");
     if (isSetup) {
       if (pass.length < MIN_LENGTH) return setError(t("errTooShort"));
@@ -48,10 +64,14 @@ function LockScreen({ mode }: { mode: "setup" | "unlock" }) {
     setBusy(true);
     const result = await unlock(pass);
     setBusy(false);
-    if (!result.ok)
-      setError(
-        result.wait > 0 ? t("errWait", { n: result.wait }) : t("errWrong"),
-      );
+    if (!result.ok) {
+      setError(t("errWrong"));
+      if (result.wait > 0) {
+        const current = Date.now();
+        setNow(current);
+        setUntil(current + result.wait * 1000);
+      }
+    }
   };
 
   return (
@@ -91,12 +111,15 @@ function LockScreen({ mode }: { mode: "setup" | "unlock" }) {
               </p>
             </div>
           )}
-          {error && (
-            <p role="alert" className="text-sm text-destructive">
-              {error}
+          {message && (
+            <p
+              role={remaining > 0 ? "timer" : "alert"}
+              className="text-sm text-destructive"
+            >
+              {message}
             </p>
           )}
-          <Button type="submit" disabled={busy}>
+          <Button type="submit" disabled={busy || remaining > 0}>
             {busy ? "…" : isSetup ? t("setupButton") : t("unlockButton")}
           </Button>
           {!isSetup && (
