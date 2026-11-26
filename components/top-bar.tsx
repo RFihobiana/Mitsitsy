@@ -1,57 +1,41 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Moon, Sun } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { LANGS, useI18n } from "@/lib/i18n";
-import { cn } from "@/lib/utils";
-
-const THEME_KEY = "mitsitsy:theme";
+import Link from "next/link";
+import { BookOpen, Lock, Settings } from "lucide-react";
+import { LanguageSwitch, ThemeToggle } from "@/components/preferences";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { useI18n } from "@/lib/i18n";
+import { useVault } from "@/lib/vault";
 
 export function TopBar() {
-  const { lang, setLang, t } = useI18n();
-  const [dark, setDark] = useState(true);
-
-  useEffect(() => {
-    const saved = localStorage.getItem(THEME_KEY);
-    const isDark = saved ? saved === "dark" : true;
-    setDark(isDark);
-    document.documentElement.classList.toggle("dark", isDark);
-  }, []);
-
-  const toggleTheme = () => {
-    const next = !dark;
-    setDark(next);
-    document.documentElement.classList.toggle("dark", next);
-    try {
-      localStorage.setItem(THEME_KEY, next ? "dark" : "light");
-    } catch {
-      /* ignore */
-    }
-  };
+  const { t } = useI18n();
+  const { status, lock } = useVault();
+  const icon = buttonVariants({ variant: "outline", size: "icon" });
 
   return (
-    <div className="flex items-center justify-between">
-      <span className="text-lg font-semibold tracking-tight">Mitsitsy</span>
-      <div className="flex items-center gap-2">
-        <div role="group" aria-label={t("language")} className="flex rounded-md border border-input p-0.5">
-          {LANGS.map((l) => (
-            <button
-              key={l}
-              onClick={() => setLang(l)}
-              aria-pressed={lang === l}
-              className={cn(
-                "rounded-sm px-2.5 py-1 text-xs font-medium uppercase transition-colors",
-                lang === l ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"
-              )}
-            >
-              {l}
-            </button>
-          ))}
-        </div>
-        <Button variant="outline" size="icon" onClick={toggleTheme} aria-label={t("theme")}>
-          {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-        </Button>
+    <div className="flex flex-wrap items-center justify-between gap-2">
+      <Link href="/" className="text-lg font-semibold tracking-tight">
+        Mitsitsy
+      </Link>
+      <div className="flex flex-wrap items-center gap-1.5">
+        <LanguageSwitch />
+        <ThemeToggle />
+        <Link href="/tutorial" className={icon} aria-label={t("tutorial")}>
+          <BookOpen className="h-4 w-4" />
+        </Link>
+        <Link href="/settings" className={icon} aria-label={t("settings")}>
+          <Settings className="h-4 w-4" />
+        </Link>
+        {status === "unlocked" && (
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={lock}
+            aria-label={t("lockNow")}
+          >
+            <Lock className="h-4 w-4" />
+          </Button>
+        )}
       </div>
     </div>
   );

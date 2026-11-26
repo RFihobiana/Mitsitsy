@@ -20,6 +20,7 @@ import {
   randomBytes,
   toBase64,
 } from "@/lib/crypto";
+import { useSettings } from "@/lib/settings";
 import { DEFAULT_STATE, type FinanceState } from "@/lib/finance";
 
 export type VaultStatus =
@@ -28,7 +29,7 @@ export type UnlockResult = { ok: true } | { ok: false; wait: number };
 
 const VAULT_KEY = "mitsitsy:vault:v1";
 const LEGACY_KEY = "mitsitsy:data:v1"; // old plaintext storage, migrated then deleted
-export const AUTO_LOCK_MINUTES = 5;
+export const MIN_PASSPHRASE_LENGTH = 10;
 const HIDDEN_LOCK_MS = 60_000;
 
 interface VaultValue {
@@ -42,6 +43,7 @@ interface VaultValue {
   importBackup: (text: string, passphrase: string) => Promise<boolean>;
   eraseAll: () => void;
   waitUntil: number;
+  changePassphrase: (current: string, next: string) => Promise<boolean>;
 }
 
 const VaultContext = createContext<VaultValue | null>(null);
@@ -87,6 +89,7 @@ export function VaultProvider({ children }: { children: ReactNode }) {
   );
   const queue = useRef<Promise<void>>(Promise.resolve());
   const [waitUntil, setWaitUntil] = useState(0);
+  const { settings } = useSettings();
 
   useEffect(() => {
     if (!cryptoSupported()) return setStatus("unsupported");
@@ -203,6 +206,34 @@ export function VaultProvider({ children }: { children: ReactNode }) {
     URL.revokeObjectURL(url);
   }, []);
 
+  /** Re-encrypts everything with a new passphrase and a new salt. */
+  const changePassphrase = useCallback(
+    async (current: string, next: string): Promise<boolean> => {
+      if (!session.current) return false;
+      try {
+        const vault: unknown = JSON.parse(
+          localStorage.getItem(VAULT_KEY) ?? "null",
+        );
+        if (!isVault(vault)) return false;
+        const oldKey = await deriveKey(
+          current,
+          fromBase64(vault.salt),
+          vault.iter,
+        );
+        await decryptJson(oldKey, vault); // throws if the current passphrase is wrong
+        const salt = toBase64(randomBytes(16));
+        const key = await deriveKey(next, fromBase64(salt), KDF_ITERATIONS);
+        await queue.current; // let pending saves finish with the old key
+        session.current = { key, salt, iter: KDF_ITERATIONS };
+        await persist(state);
+        return true;
+      } catch {
+        return false;
+      }
+    },
+    [persist, state],
+  );
+
   const importBackup = useCallback(
     async (text: string, passphrase: string) => {
       try {
@@ -241,8 +272,11 @@ export function VaultProvider({ children }: { children: ReactNode }) {
       clearTimeout(timer);
       timer = setTimeout(lock, ms);
     };
-    const idle = () => arm(AUTO_LOCK_MINUTES * 60_000);
-    const onVisibility = () => (document.hidden ? arm(HIDDEN_LOCK_MS) : idle());
+    const idle = () => arm(settings.autoLockMinutes * 60_000);
+    const onVisibility = () =>
+      document.hidden && settings.lockOnBackground
+        ? arm(HIDDEN_LOCK_MS)
+        : idle();
     const events = ["pointerdown", "keydown", "touchstart", "scroll"] as const;
     events.forEach((e) => window.addEventListener(e, idle, { passive: true }));
     document.addEventListener("visibilitychange", onVisibility);
@@ -252,7 +286,7 @@ export function VaultProvider({ children }: { children: ReactNode }) {
       events.forEach((e) => window.removeEventListener(e, idle));
       document.removeEventListener("visibilitychange", onVisibility);
     };
-  }, [status, lock]);
+  }, [status, lock, settings.autoLockMinutes, settings.lockOnBackground]);
 
   return (
     <VaultContext.Provider
@@ -267,6 +301,7 @@ export function VaultProvider({ children }: { children: ReactNode }) {
         importBackup,
         eraseAll,
         waitUntil,
+        changePassphrase,
       }}
     >
       {children}
