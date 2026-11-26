@@ -27,17 +27,17 @@ export function VaultGate({ children }: { children: ReactNode }) {
 }
 function LockScreen({ mode }: { mode: "setup" | "unlock" }) {
   const { t } = useI18n();
-  const { setup, unlock, eraseAll } = useVault();
+  const { setup, unlock, eraseAll, waitUntil: until } = useVault();
   const [pass, setPass] = useState("");
   const [confirm, setConfirm] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
-  const [until, setUntil] = useState(0); // timestamp (ms) when the wait ends
   const [now, setNow] = useState(() => Date.now());
   const isSetup = mode === "setup";
 
   // Tick while a wait is running, and stop by itself when it ends.
   useEffect(() => {
+    setNow(Date.now());
     if (until <= Date.now()) return;
     const id = setInterval(() => {
       const current = Date.now();
@@ -64,14 +64,7 @@ function LockScreen({ mode }: { mode: "setup" | "unlock" }) {
     setBusy(true);
     const result = await unlock(pass);
     setBusy(false);
-    if (!result.ok) {
-      setError(t("errWrong"));
-      if (result.wait > 0) {
-        const current = Date.now();
-        setNow(current);
-        setUntil(current + result.wait * 1000);
-      }
-    }
+    if (!result.ok) setError(t("errWrong"));
   };
 
   return (

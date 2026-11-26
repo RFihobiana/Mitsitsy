@@ -41,9 +41,43 @@ interface VaultValue {
   exportBackup: () => Promise<void>;
   importBackup: (text: string, passphrase: string) => Promise<boolean>;
   eraseAll: () => void;
+  waitUntil: number;
 }
 
 const VaultContext = createContext<VaultValue | null>(null);
+
+const GUARD_KEY = "mitsitsy:guard:v1";
+const MAX_WAIT_MS = 30_000;
+
+interface Guard {
+  failures: number;
+  until: number; // timestamp (ms) when unlocking is allowed again
+}
+
+function readGuard(): Guard {
+  try {
+    const g = JSON.parse(localStorage.getItem(GUARD_KEY) ?? "null");
+    if (g && Number.isFinite(g.failures) && Number.isFinite(g.until)) {
+      return {
+        failures: Math.max(0, Math.floor(g.failures)),
+        // Never trust a far-future value (corrupted data or a changed clock).
+        until: Math.min(g.until, Date.now() + MAX_WAIT_MS),
+      };
+    }
+  } catch {
+    /* ignore unreadable data */
+  }
+  return { failures: 0, until: 0 };
+}
+
+function writeGuard(g: Guard) {
+  try {
+    if (g.failures === 0) localStorage.removeItem(GUARD_KEY);
+    else localStorage.setItem(GUARD_KEY, JSON.stringify(g));
+  } catch {
+    /* storage unavailable: the wait still works until reload */
+  }
+}
 
 export function VaultProvider({ children }: { children: ReactNode }) {
   const [status, setStatus] = useState<VaultStatus>("loading");
@@ -52,11 +86,11 @@ export function VaultProvider({ children }: { children: ReactNode }) {
     null,
   );
   const queue = useRef<Promise<void>>(Promise.resolve());
-  const failures = useRef(0);
-  const blockedUntil = useRef(0);
+  const [waitUntil, setWaitUntil] = useState(0);
 
   useEffect(() => {
     if (!cryptoSupported()) return setStatus("unsupported");
+    setWaitUntil(readGuard().until);
     setStatus(localStorage.getItem(VAULT_KEY) ? "locked" : "setup");
   }, []);
 
@@ -114,9 +148,12 @@ export function VaultProvider({ children }: { children: ReactNode }) {
 
   const unlock = useCallback(
     async (passphrase: string): Promise<UnlockResult> => {
-      const remaining = () =>
-        Math.max(0, Math.ceil((blockedUntil.current - Date.now()) / 1000));
-      if (remaining() > 0) return { ok: false, wait: remaining() };
+      const guard = readGuard(); // read fresh each time, so other tabs are respected too
+      const secondsLeft = (until: number) =>
+        Math.max(0, Math.ceil((until - Date.now()) / 1000));
+      if (secondsLeft(guard.until) > 0)
+        return { ok: false, wait: secondsLeft(guard.until) };
+
       try {
         const vault: unknown = JSON.parse(
           localStorage.getItem(VAULT_KEY) ?? "null",
@@ -128,16 +165,19 @@ export function VaultProvider({ children }: { children: ReactNode }) {
           vault.iter,
         );
         const data = (await decryptJson(key, vault)) as FinanceState;
-        failures.current = 0;
+        writeGuard({ failures: 0, until: 0 });
+        setWaitUntil(0);
         open(key, vault.salt, vault.iter, { ...DEFAULT_STATE, ...data });
         return { ok: true };
       } catch {
-        failures.current += 1;
-        if (failures.current >= 3) {
-          blockedUntil.current =
-            Date.now() + Math.min(30, 2 ** (failures.current - 2)) * 1000;
-        }
-        return { ok: false, wait: remaining() };
+        const failures = guard.failures + 1;
+        const until =
+          failures >= 3
+            ? Date.now() + Math.min(30, 2 ** (failures - 2)) * 1000
+            : 0;
+        writeGuard({ failures, until });
+        setWaitUntil(until);
+        return { ok: false, wait: secondsLeft(until) };
       }
     },
     [],
@@ -187,8 +227,8 @@ export function VaultProvider({ children }: { children: ReactNode }) {
     localStorage.removeItem(VAULT_KEY);
     localStorage.removeItem(LEGACY_KEY);
     session.current = null;
-    failures.current = 0;
-    blockedUntil.current = 0;
+    writeGuard({ failures: 0, until: 0 });
+    setWaitUntil(0);
     setStateRaw(DEFAULT_STATE);
     setStatus("setup");
   }, []);
@@ -226,6 +266,7 @@ export function VaultProvider({ children }: { children: ReactNode }) {
         exportBackup,
         importBackup,
         eraseAll,
+        waitUntil,
       }}
     >
       {children}
