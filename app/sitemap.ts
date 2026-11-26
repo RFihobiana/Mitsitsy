@@ -1,5 +1,12 @@
 import type { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [{ url: "https://mitsitsy-tsara.vercel.app", lastModified: new Date(), changeFrequency: "monthly", priority: 1 }];
+  return [
+    {
+      url: `${siteConfig.url}/tutorial`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+  ];
 }
