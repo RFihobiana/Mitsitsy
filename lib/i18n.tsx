@@ -97,16 +97,10 @@ const en = {
 
   tutorial: "Tutorial",
   tutorialTitle: "How Mitsitsy works",
-  tutorialIntro:
-    "A short walkthrough: how to use the app, and how your data is kept private and secure.",
   tutorialWatch: "Watch the tutorial",
-  tutorialPlay: "Play",
-  tutorialPause: "Pause",
   tutorialPrev: "Previous",
   tutorialNext: "Next",
-  tutorialReplay: "Replay",
   tutorialStep: "Step {n} of {total}",
-  tutorialRead: "Read the full text",
   tutorialVideo: "Video version",
   tutorialVideoLoad: "Load video",
   tutorialVideoNote: "Loading the video contacts YouTube and needs internet.",
@@ -126,6 +120,24 @@ const en = {
   settingsData: "Your data",
   settingsUnlockFirst: "Unlock the app to manage security and data.",
   settingsGoUnlock: "Go to unlock",
+  tutorialIntro:
+    "Practice with the real app: follow the highlighted steps. Nothing you type here is saved.",
+  tutorialPractice: "Practice mode: nothing you do here is saved.",
+  tutorialDoIt: "Do it for me",
+  tutorialSkip: "Skip",
+  tutorialDone: "Done",
+  tutorialFinishTitle: "You are ready",
+  tutorialFinishText:
+    "Your practice data is discarded. Your real data starts empty and stays on this device.",
+  tutorialStart: "Start using Mitsitsy",
+  tutorialRestart: "Restart the practice",
+  cryptoTitle: "Practice: encryption",
+  cryptoEncrypt: "Encrypt",
+  cryptoPlain: "Without encryption, your data would look like this:",
+  cryptoStored: "What is really stored:",
+  cryptoTry: "Try to unlock",
+  cryptoOk: "Unlocked: the right passphrase decrypts the data.",
+  cryptoBad: "Failed: a wrong passphrase reveals nothing.",
 };
 
 export type Key = keyof typeof en;
@@ -220,16 +232,10 @@ const fr: Dict = {
 
   tutorial: "Tutoriel",
   tutorialTitle: "Comment fonctionne Mitsitsy",
-  tutorialIntro:
-    "Une courte présentation : comment utiliser l’application et comment vos données restent privées et protégées.",
   tutorialWatch: "Voir le tutoriel",
-  tutorialPlay: "Lecture",
-  tutorialPause: "Pause",
   tutorialPrev: "Précédent",
   tutorialNext: "Suivant",
-  tutorialReplay: "Revoir",
   tutorialStep: "Étape {n} sur {total}",
-  tutorialRead: "Lire le texte complet",
   tutorialVideo: "Version vidéo",
   tutorialVideoLoad: "Charger la vidéo",
   tutorialVideoNote: "Charger la vidéo contacte YouTube et nécessite internet.",
@@ -250,6 +256,25 @@ const fr: Dict = {
   settingsUnlockFirst:
     "Déverrouillez l’application pour gérer la sécurité et les données.",
   settingsGoUnlock: "Aller au déverrouillage",
+  tutorialIntro:
+    "Exercez-vous avec la vraie application : suivez les étapes en surbrillance. Rien de ce que vous saisissez ici n’est enregistré.",
+  tutorialPractice:
+    "Mode exercice : rien de ce que vous faites ici n’est enregistré.",
+  tutorialDoIt: "Faites-le pour moi",
+  tutorialSkip: "Passer",
+  tutorialDone: "Terminé",
+  tutorialFinishTitle: "Vous êtes prêt",
+  tutorialFinishText:
+    "Vos données d’exercice sont effacées. Vos vraies données démarrent vides et restent sur cet appareil.",
+  tutorialStart: "Commencer à utiliser Mitsitsy",
+  tutorialRestart: "Recommencer l’exercice",
+  cryptoTitle: "Exercice : chiffrement",
+  cryptoEncrypt: "Chiffrer",
+  cryptoPlain: "Sans chiffrement, vos données ressembleraient à ceci :",
+  cryptoStored: "Ce qui est réellement stocké :",
+  cryptoTry: "Essayer de déverrouiller",
+  cryptoOk: "Déverrouillé : la bonne phrase secrète déchiffre les données.",
+  cryptoBad: "Échec : une mauvaise phrase secrète ne révèle rien.",
 };
 
 const mg: Dict = {
@@ -342,16 +367,10 @@ const mg: Dict = {
 
   tutorial: "Fampianarana",
   tutorialTitle: "Ny fiasan’ny Mitsitsy",
-  tutorialIntro:
-    "Fampisehoana fohy: ny fampiasana ny rindrambaiko sy ny fomba itazonana ho tsiambaratelo sy voaaro ny angonao.",
   tutorialWatch: "Jereo ny fampianarana",
-  tutorialPlay: "Alefaso",
-  tutorialPause: "Ajanony",
-  tutorialPrev: "Teo aloha",
+  tutorialPrev: "Teo Aloha",
   tutorialNext: "Manaraka",
-  tutorialReplay: "Avereno",
   tutorialStep: "Dingana {n} amin’ny {total}",
-  tutorialRead: "Vakio ny lahatsoratra feno",
   tutorialVideo: "Dikan-tsary video",
   tutorialVideoLoad: "Ampidina ny video",
   tutorialVideoNote:
@@ -373,6 +392,25 @@ const mg: Dict = {
   settingsUnlockFirst:
     "Sokafy ny rindrambaiko mba hitantanana ny fiarovana sy ny angona.",
   settingsGoUnlock: "Mankanesa hisokatra",
+  tutorialIntro:
+    "Mampiasà ny rindrambaiko tena izy: arahy ny dingana misongadina. Tsy voatahiry ny zavatra soratanao eto.",
+  tutorialPractice:
+    "Fomba fampiharana: tsy voatahiry ny zavatra rehetra atao eto.",
+  tutorialDoIt: "Ataovy ho ahy",
+  tutorialSkip: "Lasa",
+  tutorialDone: "Vita",
+  tutorialFinishTitle: "Vonona ianao",
+  tutorialFinishText:
+    "Foana ny angona fampiharana. Manomboka foana ny angonao tena izy ary mijanona ao amin’ity fitaovana ity.",
+  tutorialStart: "Atombohy ny fampiasana ny Mitsitsy",
+  tutorialRestart: "Avereno ny fampiharana",
+  cryptoTitle: "Fampiharana: fanafenana",
+  cryptoEncrypt: "Asio fanafenana",
+  cryptoPlain: "Raha tsy misy fanafenana, toy izao no hiseho ny angonao:",
+  cryptoStored: "Izay tena voatahiry:",
+  cryptoTry: "Andramo ny hanokatra",
+  cryptoOk: "Nisokatra: ny teny miafina marina no mamoha ny angona.",
+  cryptoBad: "Tsy nety: tsy mamoaka na inona na inona ny teny miafina diso.",
 };
 
 const dictionaries: Record<Lang, Dict> = { en, fr, mg };
