@@ -1,4 +1,6 @@
 "use client";
+import Link from "next/link";
+import { buttonVariants } from "@/components/ui/button";
 
 import { useI18n } from "@/lib/i18n";
 
@@ -24,6 +26,17 @@ export function Hero() {
       >
         {t("heroText")}
       </p>
+
+      <Link
+        href="/tutorial"
+        className={buttonVariants({
+          variant: "outline",
+          className: "mt-6 animate-fade-up",
+        })}
+        style={{ animationDelay: "380ms" }}
+      >
+        {t("tutorialWatch")}
+      </Link>
     </section>
   );
 }

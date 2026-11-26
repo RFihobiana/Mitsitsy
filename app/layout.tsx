@@ -5,6 +5,9 @@ import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import { SwRegister } from "@/components/sw-register";
 import { VaultProvider } from "@/lib/vault";
+import { Footer } from "@/components/footer";
+import { TopBar } from "@/components/top-bar";
+import { SettingsProvider } from "@/lib/settings";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://mitsitsy-tsara.vercel.app"),
@@ -48,7 +51,15 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="fr" className="dark" suppressHydrationWarning>
       <body>
         <I18nProvider>
-          <VaultProvider>{children}</VaultProvider>
+          <SettingsProvider>
+            <VaultProvider>
+              <main className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
+                <TopBar />
+                {children}
+                <Footer />
+              </main>
+            </VaultProvider>
+          </SettingsProvider>
         </I18nProvider>
         <SwRegister />
         <Analytics />

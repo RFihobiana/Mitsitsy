@@ -19,19 +19,16 @@ const jsonLd = {
 
 export default function Home() {
   return (
-    <main className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
+    <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <TopBar />
       <Hero />
       <VaultGate>
         <Dashboard />
-        <SecurityCard />
       </VaultGate>
-      <Footer />
-    </main>
+    </>
   );
 }

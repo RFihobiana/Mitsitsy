@@ -1,15 +1,14 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState, type FormEvent, type ReactNode } from "react";
 import { Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { useI18n } from "@/lib/i18n";
-import { useVault } from "@/lib/vault";
 import { PasswordInput } from "@/components/ui/password-input";
-
-const MIN_LENGTH = 10;
+import { MIN_PASSPHRASE_LENGTH, useVault } from "@/lib/vault";
 
 export function VaultGate({ children }: { children: ReactNode }) {
   const { status } = useVault();
@@ -55,7 +54,8 @@ function LockScreen({ mode }: { mode: "setup" | "unlock" }) {
     if (remaining > 0) return;
     setError("");
     if (isSetup) {
-      if (pass.length < MIN_LENGTH) return setError(t("errTooShort"));
+      if (pass.length < MIN_PASSPHRASE_LENGTH)
+        return setError(t("errTooShort"));
       if (pass !== confirm) return setError(t("errMismatch"));
       setBusy(true);
       await setup(pass);
@@ -125,6 +125,13 @@ function LockScreen({ mode }: { mode: "setup" | "unlock" }) {
               {t("forgot")}
             </Button>
           )}
+
+          <Link
+            href="/tutorial"
+            className="text-center text-sm text-primary underline-offset-4 hover:underline"
+          >
+            {t("tutorialWatch")}
+          </Link>
         </form>
       </CardContent>
     </Card>

@@ -14,11 +14,16 @@ export function SwRegister() {
       try {
         await navigator.serviceWorker.register("/sw.js");
         const reg = await navigator.serviceWorker.ready;
-        const urls = [
-          location.href,
-          ...performance.getEntriesByType("resource").map((r) => r.name),
-        ];
-        reg.active?.postMessage({ type: "CACHE_URLS", urls });
+        const sendUrls = () =>
+          reg.active?.postMessage({
+            type: "CACHE_URLS",
+            urls: [
+              location.href,
+              ...performance.getEntriesByType("resource").map((r) => r.name),
+            ],
+          });
+        sendUrls();
+        setTimeout(sendUrls, 5000);
       } catch {
         /* offline support is optional: ignore failures */
       }

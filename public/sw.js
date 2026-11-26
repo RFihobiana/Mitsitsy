@@ -1,6 +1,8 @@
-const CACHE = "mitsitsy-v1";
+const CACHE = "mitsitsy-v2";
 const PRECACHE = [
   "/",
+  "/tutorial",
+  "/settings",
   "/manifest.webmanifest",
   "/icon.svg",
   "/pwa-icon/192",

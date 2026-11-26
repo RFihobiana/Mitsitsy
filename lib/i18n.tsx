@@ -94,6 +94,38 @@ const en = {
   forgot: "Forgot your passphrase? Erase all data",
   showPassphrase: "Show passphrase",
   hidePassphrase: "Hide passphrase",
+
+  tutorial: "Tutorial",
+  tutorialTitle: "How Mitsitsy works",
+  tutorialIntro:
+    "A short walkthrough: how to use the app, and how your data is kept private and secure.",
+  tutorialWatch: "Watch the tutorial",
+  tutorialPlay: "Play",
+  tutorialPause: "Pause",
+  tutorialPrev: "Previous",
+  tutorialNext: "Next",
+  tutorialReplay: "Replay",
+  tutorialStep: "Step {n} of {total}",
+  tutorialRead: "Read the full text",
+  tutorialVideo: "Video version",
+  tutorialVideoLoad: "Load video",
+  tutorialVideoNote: "Loading the video contacts YouTube and needs internet.",
+  backToApp: "Back to the app",
+  settings: "Settings",
+  settingsAppearance: "Appearance",
+  settingsAutoLock: "Lock after inactivity",
+  minutesN: "{n} min",
+  settingsLockBackground: "Lock when I leave the app",
+  settingsLockBackgroundHint:
+    "Locks one minute after the app goes to the background.",
+  settingsChangePass: "Change passphrase",
+  passCurrent: "Current passphrase",
+  passNew: "New passphrase",
+  passChanged: "Passphrase changed.",
+  passChangeBad: "Wrong current passphrase.",
+  settingsData: "Your data",
+  settingsUnlockFirst: "Unlock the app to manage security and data.",
+  settingsGoUnlock: "Go to unlock",
 };
 
 export type Key = keyof typeof en;
@@ -185,6 +217,39 @@ const fr: Dict = {
   forgot: "Phrase secrète oubliée ? Effacer toutes les données",
   showPassphrase: "Afficher la phrase secrète",
   hidePassphrase: "Masquer la phrase secrète",
+
+  tutorial: "Tutoriel",
+  tutorialTitle: "Comment fonctionne Mitsitsy",
+  tutorialIntro:
+    "Une courte présentation : comment utiliser l’application et comment vos données restent privées et protégées.",
+  tutorialWatch: "Voir le tutoriel",
+  tutorialPlay: "Lecture",
+  tutorialPause: "Pause",
+  tutorialPrev: "Précédent",
+  tutorialNext: "Suivant",
+  tutorialReplay: "Revoir",
+  tutorialStep: "Étape {n} sur {total}",
+  tutorialRead: "Lire le texte complet",
+  tutorialVideo: "Version vidéo",
+  tutorialVideoLoad: "Charger la vidéo",
+  tutorialVideoNote: "Charger la vidéo contacte YouTube et nécessite internet.",
+  backToApp: "Retour à l’application",
+  settings: "Réglages",
+  settingsAppearance: "Apparence",
+  settingsAutoLock: "Verrouiller après inactivité",
+  minutesN: "{n} min",
+  settingsLockBackground: "Verrouiller quand je quitte l’application",
+  settingsLockBackgroundHint:
+    "Verrouille une minute après le passage en arrière-plan.",
+  settingsChangePass: "Changer la phrase secrète",
+  passCurrent: "Phrase secrète actuelle",
+  passNew: "Nouvelle phrase secrète",
+  passChanged: "Phrase secrète modifiée.",
+  passChangeBad: "Phrase secrète actuelle incorrecte.",
+  settingsData: "Vos données",
+  settingsUnlockFirst:
+    "Déverrouillez l’application pour gérer la sécurité et les données.",
+  settingsGoUnlock: "Aller au déverrouillage",
 };
 
 const mg: Dict = {
@@ -274,6 +339,40 @@ const mg: Dict = {
   forgot: "Adino ny teny miafina? Fafana ny angona rehetra",
   showPassphrase: "Asehoy ny teny miafina",
   hidePassphrase: "Afeno ny teny miafina",
+
+  tutorial: "Fampianarana",
+  tutorialTitle: "Ny fiasan’ny Mitsitsy",
+  tutorialIntro:
+    "Fampisehoana fohy: ny fampiasana ny rindrambaiko sy ny fomba itazonana ho tsiambaratelo sy voaaro ny angonao.",
+  tutorialWatch: "Jereo ny fampianarana",
+  tutorialPlay: "Alefaso",
+  tutorialPause: "Ajanony",
+  tutorialPrev: "Teo aloha",
+  tutorialNext: "Manaraka",
+  tutorialReplay: "Avereno",
+  tutorialStep: "Dingana {n} amin’ny {total}",
+  tutorialRead: "Vakio ny lahatsoratra feno",
+  tutorialVideo: "Dikan-tsary video",
+  tutorialVideoLoad: "Ampidina ny video",
+  tutorialVideoNote:
+    "Mifandray amin’ny YouTube ny fampidinana ny video ary mila internet.",
+  backToApp: "Hiverina amin’ny rindrambaiko",
+  settings: "Fandrindrana",
+  settingsAppearance: "Endrika",
+  settingsAutoLock: "Hidio rehefa tsy ampiasaina",
+  minutesN: "{n} min",
+  settingsLockBackground: "Hidio rehefa miala amin’ny rindrambaiko aho",
+  settingsLockBackgroundHint:
+    "Mihidy iray minitra aorian’ny fandehanana ao ambadika.",
+  settingsChangePass: "Ovay ny teny miafina",
+  passCurrent: "Teny miafina ankehitriny",
+  passNew: "Teny miafina vaovao",
+  passChanged: "Voaova ny teny miafina.",
+  passChangeBad: "Diso ny teny miafina ankehitriny.",
+  settingsData: "Ny angonao",
+  settingsUnlockFirst:
+    "Sokafy ny rindrambaiko mba hitantanana ny fiarovana sy ny angona.",
+  settingsGoUnlock: "Mankanesa hisokatra",
 };
 
 const dictionaries: Record<Lang, Dict> = { en, fr, mg };
