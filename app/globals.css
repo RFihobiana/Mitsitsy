@@ -37,7 +37,9 @@
     --want: 38 92% 55%;
     --left: 0 0% 26%;
   }
-  * { @apply border-border; }
+  * {
+    @apply border-border;
+  }
   body {
     @apply bg-background text-foreground antialiased;
     font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
@@ -45,5 +47,30 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@keyframes tour-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 3px hsl(var(--primary) / 0.55);
+  }
+  50% {
+    box-shadow: 0 0 0 7px hsl(var(--primary) / 0.15);
+  }
+}
+.tour-highlight {
+  border-radius: 0.75rem;
+  animation: tour-pulse 1.6s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .tour-highlight {
+    animation: none !important;
+    box-shadow: 0 0 0 4px hsl(var(--primary) / 0.5);
+  }
 }

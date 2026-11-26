@@ -16,6 +16,7 @@ import {
   projection,
   type Expense,
   type Kind,
+  type FinanceState,
 } from "@/lib/finance";
 import { useI18n, type Key } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
@@ -23,9 +24,14 @@ import { useVault } from "@/lib/vault";
 
 const toNumber = (v: string) => Math.max(0, Number(v) || 0);
 
-export function Dashboard() {
+export function Dashboard({
+  sandbox,
+}: {
+  sandbox?: { state: FinanceState; setState: (s: FinanceState) => void };
+}) {
   const { t, lang } = useI18n();
-  const { state, setState } = useVault();
+  const vault = useVault();
+  const { state, setState } = sandbox ?? vault;
   const fmt = (n: number) => money(n, lang);
   const c = compute(state);
   const points = projection(state, c.toSave, c.monthsToGoal);
@@ -90,7 +96,7 @@ export function Dashboard() {
       <div className="grid content-start gap-5">
         <Card>
           <CardContent className="grid gap-4 pt-5">
-            <div className="grid gap-1.5">
+            <div className="grid gap-1.5" data-tour="salary">
               <Label htmlFor="salary">{t("salary")}</Label>
               <Input
                 id="salary"
@@ -103,7 +109,7 @@ export function Dashboard() {
                 }
               />
             </div>
-            <div className="grid gap-1.5">
+            <div className="grid gap-1.5" data-tour="share">
               <Label htmlFor="pct">
                 {t("savingsShare", { pct: state.savingsPercent })}
               </Label>
@@ -136,7 +142,7 @@ export function Dashboard() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card data-tour="overview">
           <CardHeader>
             <CardTitle>{t("overview")}</CardTitle>
           </CardHeader>
@@ -177,6 +183,7 @@ export function Dashboard() {
             )}
 
             <form
+              data-tour="expense-form"
               className="grid grid-cols-2 gap-2 sm:grid-cols-[2fr_1fr_1fr_auto]"
               onSubmit={(e) => {
                 e.preventDefault();
@@ -295,7 +302,7 @@ export function Dashboard() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card data-tour="goal">
           <CardHeader>
             <CardTitle>{t("goalTitle")}</CardTitle>
           </CardHeader>
@@ -373,6 +380,7 @@ export function Dashboard() {
                 </p>
                 {c.toSave > 0 && c.remainingGoal > 0 && (
                   <Button
+                    data-tour="addmonth"
                     onClick={() =>
                       setState({
                         ...state,

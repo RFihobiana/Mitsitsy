@@ -23,7 +23,12 @@ export function TopBar() {
         <Link href="/tutorial" className={icon} aria-label={t("tutorial")}>
           <BookOpen className="h-4 w-4" />
         </Link>
-        <Link href="/settings" className={icon} aria-label={t("settings")}>
+        <Link
+          href="/settings"
+          data-tour="settings"
+          className={icon}
+          aria-label={t("settings")}
+        >
           <Settings className="h-4 w-4" />
         </Link>
         {status === "unlocked" && (
