@@ -92,7 +92,7 @@ export function Dashboard({
   ] as const;
 
   return (
-    <div className="grid gap-5 lg:grid-cols-2">
+    <div className={cn("grid gap-5", !sandbox && "lg:grid-cols-2")}>
       <div className="grid content-start gap-5">
         <Card>
           <CardContent className="grid gap-4 pt-5">

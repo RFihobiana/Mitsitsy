@@ -58,19 +58,26 @@
 @keyframes tour-pulse {
   0%,
   100% {
-    box-shadow: 0 0 0 3px hsl(var(--primary) / 0.55);
+    box-shadow: 0 0 0 0 hsl(var(--primary) / 0.45);
   }
   50% {
-    box-shadow: 0 0 0 7px hsl(var(--primary) / 0.15);
+    box-shadow: 0 0 0 12px hsl(var(--primary) / 0);
   }
 }
 .tour-highlight {
   border-radius: 0.75rem;
-  animation: tour-pulse 1.6s ease-in-out infinite;
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 5px;
+  scroll-margin-top: 17rem; /* keeps the target below the pinned coach on phones */
+  animation: tour-pulse 1.8s ease-in-out infinite;
+}
+@media (min-width: 1024px) {
+  .tour-highlight {
+    scroll-margin-top: 2rem;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   .tour-highlight {
     animation: none !important;
-    box-shadow: 0 0 0 4px hsl(var(--primary) / 0.5);
   }
 }

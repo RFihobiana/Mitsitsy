@@ -6,6 +6,7 @@ import { Tour } from "@/components/tour";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useI18n } from "@/lib/i18n";
+import { BookOpen } from "lucide-react";
 
 function VideoEmbed({ url }: { url: string }) {
   const { t } = useI18n();
@@ -47,17 +48,22 @@ export function TutorialView({ videoUrl }: { videoUrl?: string }) {
   const { t } = useI18n();
   return (
     <section className="py-8">
-      <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
-        {t("tutorialTitle")}
-      </h1>
-      <p className="mb-6 mt-3 max-w-2xl text-muted-foreground">
-        {t("tutorialIntro")}
-      </p>
+      <header className="mb-8 max-w-2xl">
+        <p className="mb-3 inline-flex items-center gap-2 rounded-full border border-primary/40 px-3 py-1 text-xs font-medium text-primary">
+          <BookOpen className="h-3.5 w-3.5" /> {t("tutorial")}
+        </p>
+        <h1 className="text-3xl font-bold tracking-tight sm:text-5xl">
+          {t("tutorialTitle")}
+        </h1>
+        <p className="mt-3 text-lg leading-relaxed text-muted-foreground">
+          {t("tutorialIntro")}
+        </p>
+      </header>
       <Tour />
       {videoUrl && <VideoEmbed url={videoUrl} />}
       <Link
         href="/"
-        className={buttonVariants({ variant: "outline", className: "mt-6" })}
+        className={buttonVariants({ variant: "outline", className: "mt-8" })}
       >
         {t("backToApp")}
       </Link>

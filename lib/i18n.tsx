@@ -138,6 +138,9 @@ const en = {
   cryptoTry: "Try to unlock",
   cryptoOk: "Unlocked: the right passphrase decrypts the data.",
   cryptoBad: "Failed: a wrong passphrase reveals nothing.",
+  tutorialExplain: "Show the explanation",
+  tutorialYourTurn: "Your turn",
+  tutorialWellDone: "Well done. Press Next to continue.",
 };
 
 export type Key = keyof typeof en;
@@ -275,6 +278,9 @@ const fr: Dict = {
   cryptoTry: "Essayer de déverrouiller",
   cryptoOk: "Déverrouillé : la bonne phrase secrète déchiffre les données.",
   cryptoBad: "Échec : une mauvaise phrase secrète ne révèle rien.",
+  tutorialExplain: "Voir l’explication",
+  tutorialYourTurn: "À vous de jouer",
+  tutorialWellDone: "Bravo. Appuyez sur Suivant pour continuer.",
 };
 
 const mg: Dict = {
@@ -411,6 +417,9 @@ const mg: Dict = {
   cryptoTry: "Andramo ny hanokatra",
   cryptoOk: "Nisokatra: ny teny miafina marina no mamoha ny angona.",
   cryptoBad: "Tsy nety: tsy mamoaka na inona na inona ny teny miafina diso.",
+  tutorialExplain: "Jereo ny fanazavana",
+  tutorialYourTurn: "Anjaranao",
+  tutorialWellDone: "Tsara izany. Tsindrio ny Manaraka mba hanohy.",
 };
 
 const dictionaries: Record<Lang, Dict> = { en, fr, mg };
