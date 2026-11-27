@@ -21,6 +21,7 @@ import {
 import { useI18n, type Key } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import { useVault } from "@/lib/vault";
+import { SuggestionsCard } from "@/components/suggestions-card";
 
 const toNumber = (v: string) => Math.max(0, Number(v) || 0);
 
@@ -32,7 +33,7 @@ export function Dashboard({
   const { t, lang } = useI18n();
   const vault = useVault();
   const { state, setState } = sandbox ?? vault;
-  const fmt = (n: number) => money(n, lang);
+  const fmt = (n: number) => money(n, lang, state.currency);
   const c = compute(state);
   const points = projection(state, c.toSave, c.monthsToGoal);
 
@@ -140,6 +141,7 @@ export function Dashboard({
               </div>
             </div>
           </CardContent>
+          {!sandbox && <SuggestionsCard state={state} setState={setState} />}
         </Card>
 
         <Card data-tour="overview">

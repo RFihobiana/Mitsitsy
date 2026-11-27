@@ -1,16 +1,17 @@
 export type Kind = "need" | "want";
 
+export interface Goal {
+  name: string;
+  target: number;
+  saved: number;
+}
+
 export interface Expense {
   id: string;
   label: string;
   amount: number;
   kind: Kind;
-}
-
-export interface Goal {
-  name: string;
-  target: number;
-  saved: number;
+  template?: boolean; // added by the suggestions, replaced when applied again
 }
 
 export interface FinanceState {
@@ -18,6 +19,9 @@ export interface FinanceState {
   savingsPercent: number;
   goal: Goal;
   expenses: Expense[];
+  placeId: string; // "" = not chosen
+  tier: number; // used when placeId is "other"
+  currency: string;
 }
 
 export const DEFAULT_STATE: FinanceState = {
@@ -25,11 +29,18 @@ export const DEFAULT_STATE: FinanceState = {
   savingsPercent: 20,
   goal: { name: "", target: 0, saved: 0 },
   expenses: [],
+  placeId: "",
+  tier: 3,
+  currency: "Ar",
 };
 
-export function money(value: number, lang: string): string {
+export function money(value: number, lang: string, currency = "Ar"): string {
   const locale = lang === "en" ? "en-US" : "fr-FR";
-  return `${new Intl.NumberFormat(locale, { maximumFractionDigits: 0 }).format(Math.round(value))} Ar`;
+  const n = new Intl.NumberFormat(locale, { maximumFractionDigits: 0 }).format(
+    Math.round(value),
+  );
+  const c = currency.trim();
+  return c ? `${n} ${c}` : n;
 }
 
 export function daysLeftInMonth(now = new Date()): number {

@@ -17,7 +17,6 @@ const en = {
   heroTitle: "The smartest way to keep your salary.",
   heroText:
     "Mitsitsy puts your savings above everything else: before rent, before shopping, before anything. You save first, spend what is left, and watch your goals come closer every month.",
-  salary: "Monthly salary (Ar)",
   savingsShare: "Share to save: {pct}%",
   saveFirst: "Set aside on payday",
   toSpend: "To spend",
@@ -39,8 +38,6 @@ const en = {
   goalTitle: "Savings goal",
   goalFor: "What for?",
   goalForPlaceholder: "e.g. laptop",
-  goalTarget: "Target amount (Ar)",
-  goalSaved: "Already saved (Ar)",
   goalRemaining:
     "{remaining} to go. At {rate} per month, you get there in {duration}.",
   durationDay: "{n} day",
@@ -141,6 +138,38 @@ const en = {
   tutorialExplain: "Show the explanation",
   tutorialYourTurn: "Your turn",
   tutorialWellDone: "Well done. Press Next to continue.",
+  suggestTitle: "Suggested monthly budget",
+  suggestIntro:
+    "Tell us where you live. We suggest a lean list of expenses based on your salary and local prices.",
+  placeLabel: "Where do you live?",
+  placeChoose: "Choose a place",
+  placeMadagascar: "Madagascar",
+  placeOther: "Other country",
+  placeSmallTown: "Small town or village (Madagascar)",
+  priceLevel: "Cost of living there",
+  price1: "Very low",
+  price2: "Low",
+  price3: "Medium",
+  price4: "High",
+  price5: "Very high",
+  currencyLabel: "Currency",
+  suggestNeedSalary: "Enter your salary first to see suggestions.",
+  suggestTotal: "Estimated total: {total}",
+  suggestCushion:
+    "{cushion} stays free each month. Consider adding it to your savings.",
+  suggestApply: "Add these expenses",
+  suggestNote:
+    "These are estimates, not exact prices. Edit any expense afterwards. Applying again replaces the previous suggestions and keeps your own expenses.",
+  catHousing: "Rent",
+  catFood: "Food",
+  catTransport: "Transport",
+  catUtilities: "Electricity and water",
+  catPhone: "Phone and internet",
+  catHealth: "Health",
+  catLeisure: "Leisure",
+  salary: "Monthly salary",
+  goalTarget: "Target amount",
+  goalSaved: "Already saved",
 };
 
 export type Key = keyof typeof en;
@@ -151,7 +180,6 @@ const fr: Dict = {
   heroTitle: "La façon la plus intelligente de garder votre salaire.",
   heroText:
     "Mitsitsy place votre épargne au-dessus de tout : avant le loyer, avant les achats, avant le reste. Vous épargnez d’abord, vous dépensez ce qui reste, et vos objectifs se rapprochent chaque mois.",
-  salary: "Salaire mensuel (Ar)",
   savingsShare: "Part à épargner : {pct} %",
   saveFirst: "À mettre de côté dès la paie",
   toSpend: "À dépenser",
@@ -174,8 +202,6 @@ const fr: Dict = {
   goalTitle: "Objectif d’épargne",
   goalFor: "Pour quoi ?",
   goalForPlaceholder: "ex. ordinateur portable",
-  goalTarget: "Montant visé (Ar)",
-  goalSaved: "Déjà épargné (Ar)",
   goalRemaining:
     "Il reste {remaining}. À {rate} par mois, vous y arrivez en {duration}.",
   durationDay: "{n} jour",
@@ -281,6 +307,39 @@ const fr: Dict = {
   tutorialExplain: "Voir l’explication",
   tutorialYourTurn: "À vous de jouer",
   tutorialWellDone: "Bravo. Appuyez sur Suivant pour continuer.",
+  suggestTitle: "Budget mensuel suggéré",
+  suggestIntro:
+    "Indiquez où vous vivez. Nous proposons une liste de dépenses réduite selon votre salaire et les prix locaux.",
+  placeLabel: "Où habitez-vous ?",
+  placeChoose: "Choisissez un lieu",
+  placeMadagascar: "Madagascar",
+  placeOther: "Autre pays",
+  placeSmallTown: "Petite ville ou village (Madagascar)",
+  priceLevel: "Coût de la vie là-bas",
+  price1: "Très bas",
+  price2: "Bas",
+  price3: "Moyen",
+  price4: "Élevé",
+  price5: "Très élevé",
+  currencyLabel: "Devise",
+  suggestNeedSalary:
+    "Saisissez d’abord votre salaire pour voir les suggestions.",
+  suggestTotal: "Total estimé : {total}",
+  suggestCushion:
+    "{cushion} reste libre chaque mois. Pensez à l’ajouter à votre épargne.",
+  suggestApply: "Ajouter ces dépenses",
+  suggestNote:
+    "Ce sont des estimations, pas des prix exacts. Modifiez chaque dépense ensuite. Appliquer à nouveau remplace les suggestions précédentes et garde vos propres dépenses.",
+  catHousing: "Loyer",
+  catFood: "Nourriture",
+  catTransport: "Transport",
+  catUtilities: "Électricité et eau",
+  catPhone: "Téléphone et internet",
+  catHealth: "Santé",
+  catLeisure: "Loisirs",
+  salary: "Salaire mensuel",
+  goalTarget: "Montant visé",
+  goalSaved: "Déjà épargné",
 };
 
 const mg: Dict = {
@@ -288,7 +347,6 @@ const mg: Dict = {
   heroTitle: "Ny fomba tsara indrindra hitehirizana ny karamanao.",
   heroText:
     "Ny Mitsitsy dia mametraka ny fitehirizanao ho ambonin’ny zavatra rehetra: alohan’ny hofan-trano, alohan’ny fividianana, alohan’ny hafa rehetra. Mitahiry aloha ianao, avieo vao mandany ny sisa, ary manakaiky ny fotoana ahatratraranao izay tanjona napetrakao.",
-  salary: "Karama isam-bolana (Ar)",
   savingsShare: "Anjara hotehirizina: {pct}%",
   saveFirst: "Hotehirizina rehefa mandray karama",
   toSpend: "Holaniana",
@@ -311,8 +369,6 @@ const mg: Dict = {
   goalTitle: "Tanjona fitehirizana",
   goalFor: "Ho an’ny inona?",
   goalForPlaceholder: "ohatra: solosaina finday",
-  goalTarget: "Vola tiana ho tratra (Ar)",
-  goalSaved: "Efa voatahiry (Ar)",
   goalRemaining:
     "Mbola {remaining}. Raha {rate} isam-bolana ny fitehirizanao, ho tratra afaka {duration}.",
   durationDay: "{n} andro",
@@ -420,6 +476,38 @@ const mg: Dict = {
   tutorialExplain: "Jereo ny fanazavana",
   tutorialYourTurn: "Anjaranao",
   tutorialWellDone: "Tsara izany. Tsindrio ny Manaraka mba hanohy.",
+  suggestTitle: "Teti-bola isam-bolana soso-kevitra",
+  suggestIntro:
+    "Lazao izahay izay toerana onenanao. Hanolotra lisitry ny fandaniana voafetra izahay araka ny karamanao sy ny vidin-javatra eo an-toerana.",
+  placeLabel: "Aiza no onenanao?",
+  placeChoose: "Fidio ny toerana",
+  placeMadagascar: "Madagasikara",
+  placeOther: "Firenena hafa",
+  placeSmallTown: "Tanàna kely na vohitra (Madagasikara)",
+  priceLevel: "Ny fiainana ao",
+  price1: "Ambany dia ambany",
+  price2: "Ambany",
+  price3: "Antonony",
+  price4: "Avo",
+  price5: "Avo dia avo",
+  currencyLabel: "Vola",
+  suggestNeedSalary: "Ampidiro aloha ny karamanao hahitana ny soso-kevitra.",
+  suggestTotal: "Totalin’ny tombana: {total}",
+  suggestCushion:
+    "Mijanona malalaka isam-bolana ny {cushion}. Heveriko fa tsara raha ampiana amin’ny fitehirizana.",
+  suggestApply: "Ampio ireo fandaniana ireo",
+  suggestNote:
+    "Tombana ihany ireo, fa tsy vidiny marina. Ovay ny fandaniana tsirairay aorian’izay. Ny fampiharana indray dia manolo ny soso-kevitra teo aloha ary mitazona ny fandaniana nampidirinao.",
+  catHousing: "Hofan-trano",
+  catFood: "Sakafo",
+  catTransport: "Fitaterana",
+  catUtilities: "Jirama (jiro sy rano)",
+  catPhone: "Finday sy internet",
+  catHealth: "Fahasalamana",
+  catLeisure: "Fialamboly",
+  salary: "Karama isam-bolana",
+  goalTarget: "Vola tiana ho tratra",
+  goalSaved: "Efa voatahiry",
 };
 
 const dictionaries: Record<Lang, Dict> = { en, fr, mg };
